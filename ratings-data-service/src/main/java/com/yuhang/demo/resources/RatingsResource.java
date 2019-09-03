@@ -10,6 +10,7 @@ import com.yuhang.demo.models.Rating;
 @RequestMapping("/ratingsdata")
 public class RatingsResource {
 
+		// The movie rating service accepts a movie ID and returns a movie rating object. 
 	    @RequestMapping("/{mId}")
 	    public Rating getRating(@PathVariable("mId") String movieId) {
 	        return new Rating(movieId, 88);

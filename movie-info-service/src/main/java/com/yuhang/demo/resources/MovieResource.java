@@ -12,6 +12,7 @@ import com.yuhang.demo.models.Movie;
 @RequestMapping("/movies")
 public class MovieResource {
 
+		// The movie info service accepts a movie ID and returns a movie name object
 	    @RequestMapping("/{mId}")
 	    // Frequently we see ID are numbers mixed with chars...
 	    public Movie getMovieInfo(@PathVariable("mId") String movieId) {
