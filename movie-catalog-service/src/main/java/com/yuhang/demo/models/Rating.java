@@ -5,6 +5,7 @@ public class Rating {
 	private String mId;
 	private int mrating;
 	
+	// We need an empty constructor for restTemplate to put info into it to construct an object from String. 
 	public Rating() {}
 	
 	public Rating(String mId, int mrating) {

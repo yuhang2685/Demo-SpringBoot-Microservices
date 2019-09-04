@@ -16,7 +16,9 @@ public class MovieResource {
 	    @RequestMapping("/{mId}")
 	    // Frequently we see ID are numbers mixed with chars...
 	    public Movie getMovieInfo(@PathVariable("mId") String movieId) {
-	        return new Movie(movieId, "Movie Name");
+	        
+	    	// Hard coded movie name for every request.
+	    	return new Movie(movieId, "Movie Name");
 
 	    }
 }

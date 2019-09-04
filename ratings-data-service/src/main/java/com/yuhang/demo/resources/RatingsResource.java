@@ -14,16 +14,20 @@ import com.yuhang.demo.models.UserRating;
 @RequestMapping("/ratingsdata")
 public class RatingsResource {
 
-		// The movie rating service accepts a movie ID and returns a movie rating object. 
+		// Movie Rating Service accepts a movie ID and returns a movie rating object. 
 	    @RequestMapping("/{mId}")
 	    public Rating getRating(@PathVariable("mId") String movieId) {
-	        return new Rating(movieId, 88);
+	        
+	    	// Hard coded rating for every request.
+	    	return new Rating(movieId, 88);
 	    }
 	    
-	    // The movie rating service accepts a movie ID and returns a list of movie rating objects. 
+	    // Movie Rating Service accepts a user ID and returns a list of movie rating objects. 
 	    @RequestMapping("/users/{uId}")
-	    // UserRating is an object wrapper for list of rating objects (as a field).
+	    // UserRating is a wrapper class for the list of movie rating objects (as a field in the wrapper class).
 	    public UserRating getRatings(@PathVariable("uId") String userId) {
+	    	
+	    	// Hard coded rating list for every request.
 	    	List<Rating> ratings = Arrays.asList(
 					new Rating("S101", 86),
 					new Rating("T445", 55)

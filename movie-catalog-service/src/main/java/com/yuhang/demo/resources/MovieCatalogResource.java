@@ -22,9 +22,10 @@ import com.yuhang.demo.models.UserRating;
  *
  * First, we construct 3 independent microservices (which are Spring Boot REST Applications) with hard-coded data.
  * 
- * Next, we enable them to call each other programmatically through REST APIs using REST client library.
+ * Next, we enable them to call each other programmatically through REST APIs using a REST client library.
  * Note Spring Boot has one REST client (to call REST APIs) already in your classpath - RestTemplate.
  * We will show how it calls an external microservice API.
+ * We also explored how to use WebClient which will replace RestTemplate in the future.
  * 
  */
 
@@ -38,24 +39,25 @@ public class MovieCatalogResource {
 	@Autowired
 	private RestTemplate restTemplate;
 	
-	// The movie catalog service accepts user id and returns a list of catalog items.
+	// The movie catalog service accepts user ID and returns a list of catalog items.
 	// There is no such catalog items available, we have to construct it through other services.
 	@RequestMapping("/{uId}")	
-	// YH: @PathVariable is to obtain some placeholder from the URI (Spring calls it an URI Template),
+	// @PathVariable is used to obtain some placeholder from the URI (Spring calls it an URI Template),
 	// i.e., the user input URI component "uId" is passed to the local variable "userId".	
 	public List<CatalogItem> getCatalog(@PathVariable("uId") String userId){
 				
 		// A new way to create a single element list:
 		// return Collections.singletonList(new CatalogItem("Transformers3","description", 89));
 	
-		// WebClient is replacing RestTemplate.
-		// We need the dependency webflux
+		// WebClient needs the dependency webflux
 		WebClient.Builder webClientBuilder = WebClient.builder();
 		
-		// Starting from hard coded list of rating objects, now we use the input uid to get user rated movies.
+		// Started from hard coded list of rating objects, now we goto the rating service with the input user ID to get user rated movies.
+		// It needs an empty constructor for constructing an object of Rating.
+		// Question: why not constructor for UserRating?
 		UserRating userRating = restTemplate.getForObject("http://localhost:8083/ratingsdata/users/" + userId, UserRating.class);
 		
-		// Then we use each movie ID obtained from rating object to call movie info service to obtain the movie name, 
+		// Then we use each movie ID obtained from the list of rating objects to call movie info service to obtain the movie name, 
 		// and use piece data to construct a CatalogItem.
 		//
 		// Could use for-loop to result each item and put them together in list to return.		
@@ -64,10 +66,11 @@ public class MovieCatalogResource {
 				      		// We start from a hard coded mapping from a rating to an item:
 				           	//   rating -> new CatalogItem("Transformers3","description", 89)
 				           	// Then we use RestTemplate to goto the hard coded REST service URI 
-				      		//   and gets back a Movie object used to construct a CatalogItem.
+				      		//   to get back a Movie object used to construct a CatalogItem.
 				    	  	{
+				    	  		// It needs an empty constructor for constructing an object of Movie.
 				    	  		Movie mv = restTemplate.getForObject("http://localhost:8082/movies/" + rating.getmId(), Movie.class);
-				    	  		/*
+				    	  		/* Example of using WebClient
 				    	  		Movie mv = webClientBuilder.build().get()
 							    	  			.uri("http://localhost:8082/movies/" + rating.getmId())
 							    	  			.retrieve()
