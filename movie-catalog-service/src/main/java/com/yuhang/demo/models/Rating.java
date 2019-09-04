@@ -5,6 +5,7 @@ public class Rating {
 	private String mId;
 	private int mrating;
 	
+	public Rating() {}
 	
 	public Rating(String mId, int mrating) {
 		this.mId = mId;
