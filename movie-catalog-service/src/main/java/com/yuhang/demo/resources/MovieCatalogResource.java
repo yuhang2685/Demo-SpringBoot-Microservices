@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import com.yuhang.demo.models.CatalogItem;
 import com.yuhang.demo.models.Movie;
@@ -50,7 +49,7 @@ public class MovieCatalogResource {
 		// return Collections.singletonList(new CatalogItem("Transformers3","description", 89));
 	
 		// WebClient needs the dependency webflux
-		WebClient.Builder webClientBuilder = WebClient.builder();
+		//WebClient.Builder webClientBuilder = WebClient.builder();
 		
 		// Started from hard coded list of rating objects, now we goto the rating service with the input user ID to get user rated movies.
 		// It needs an empty constructor for constructing an object of Rating.
