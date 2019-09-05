@@ -26,6 +26,7 @@ import com.yuhang.demo.models.UserRating;
  * We will show how it calls an external microservice API.
  * We also explored how to use WebClient which will replace RestTemplate in the future.
  * 
+ * Then we setup Eureka server to bring in dynamic url and load balancing.
  */
 
 
@@ -54,7 +55,7 @@ public class MovieCatalogResource {
 		// Started from hard coded list of rating objects, now we goto the rating service with the input user ID to get user rated movies.
 		// It needs an empty constructor for constructing an object of Rating.
 		// Question: why not constructor for UserRating?
-		UserRating userRating = restTemplate.getForObject("http://localhost:8083/ratingsdata/users/" + userId, UserRating.class);
+		UserRating userRating = restTemplate.getForObject("http://ratings-data-service/ratingsdata/users/" + userId, UserRating.class);
 		
 		// Then we use each movie ID obtained from the list of rating objects to call movie info service to obtain the movie name, 
 		// and use piece data to construct a CatalogItem.
@@ -68,7 +69,7 @@ public class MovieCatalogResource {
 				      		//   to get back a Movie object used to construct a CatalogItem.
 				    	  	{
 				    	  		// It needs an empty constructor for constructing an object of Movie.
-				    	  		Movie mv = restTemplate.getForObject("http://localhost:8082/movies/" + rating.getmId(), Movie.class);
+				    	  		Movie mv = restTemplate.getForObject("http://movie-info-service/movies/" + rating.getmId(), Movie.class);
 				    	  		/* Example of using WebClient
 				    	  		Movie mv = webClientBuilder.build().get()
 							    	  			.uri("http://localhost:8082/movies/" + rating.getmId())
