@@ -27,6 +27,8 @@ import com.yuhang.demo.models.UserRating;
  * We also explored how to use WebClient which will replace RestTemplate in the future.
  * 
  * Then we setup Eureka server to bring in dynamic url and load balancing.
+ * 
+ * Finally, we use external website to obtain movie name and description by making REST API call
  */
 
 
@@ -77,7 +79,10 @@ public class MovieCatalogResource {
 							    	  			.bodyToMono(Movie.class)
 							    	  			.block(); // blocking until get data back - asynchronous becomes synchronous
 				    	  		*/
-				    	  		return new CatalogItem(mv.getMname(), "description", rating.getMrating());
+				    	  		
+				    	  		// Obtain "description" from external API.
+				    	  		//return new CatalogItem(mv.getMname(), "description", rating.getMrating());
+				    	  		return new CatalogItem(mv.getMname(), mv.getDescription(), rating.getMrating());
 				    	  	}
 				          )
 		              .collect(Collectors.toList());

@@ -29,8 +29,8 @@ public class RatingsResource {
 	    	
 	    	// Hard coded rating list for every request.
 	    	List<Rating> ratings = Arrays.asList(
-					new Rating("S101", 86),
-					new Rating("T445", 55)
+					new Rating("100", 86),
+					new Rating("200", 55)
 			);
 	    	UserRating userRating = new UserRating();
 	    	userRating.setUserRatings(ratings);
